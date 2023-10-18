@@ -60,6 +60,7 @@ export const renewToken = async (req, res = response) => {
 
   // Generar jwt
   const token = await generarJwt(id);
+  
 
   // Obtener usuario por id
   const [result] = await pool.query(
