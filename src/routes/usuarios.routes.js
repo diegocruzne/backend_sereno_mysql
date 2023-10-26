@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   changeMyPassword,
+  createUser,
   updateMyUser,
 } from "../controllers/usuarios.controller.js";
 import { validarJwt } from "../middlewares/validar-jwt.js";
@@ -10,5 +11,6 @@ const router = Router();
 
 router.put("/usuarios/:id", validarJwt, updateMyUser);
 router.post("/usuarios_changemypassword", validatePasswords, validarJwt, changeMyPassword);
+router.post("/usuarios", validarJwt, createUser);
 
 export default router;

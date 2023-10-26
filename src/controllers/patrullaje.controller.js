@@ -88,7 +88,7 @@ export const getPatrullajes_detalles = async (req, res = response) => {
 
 export const getPatrullajes = async (req, res = response) => {
   try {
-    const [result] = await pool.query(
+    /* const [result] = await pool.query(
       "SELECT id_patrullaje, patrullaje.descripcion, turno.turno, unidad.placa, tipo_unidad.tipo_unidad, \n " +
         "CASE \n " +
         "WHEN patrullaje.estado = 1 THEN 'Activo' \n " +
@@ -97,6 +97,20 @@ export const getPatrullajes = async (req, res = response) => {
         "FROM patrullaje INNER JOIN turno ON patrullaje.fk_turno = turno.id_turno \n " +
         "INNER JOIN unidad ON patrullaje.fk_unidad = unidad.id_unidad \n " +
         "INNER JOIN tipo_unidad ON unidad.fk_tipo_unidad = tipo_unidad.id_tipo_unidad;"
+    ); */
+
+    const [result] = await pool.query(
+      "SELECT id_patrullaje, patrullaje.descripcion, turno.turno, unidad.placa, tipo_unidad.tipo_unidad, \n " +
+        "CASE \n " +
+        "WHEN patrullaje.estado = 1 THEN 'Activo' \n " +
+        "WHEN patrullaje.estado = 0 THEN 'Inactivo' \n " +
+        "END AS estado, COUNT(sereno.id_sereno) AS num_sere\n" +
+        "FROM patrullaje LEFT JOIN sereno ON patrullaje.id_patrullaje = sereno.fk_patrullaje \n " +
+        "INNER JOIN turno ON patrullaje.fk_turno = turno.id_turno \n " +
+        "INNER JOIN unidad ON patrullaje.fk_unidad = unidad.id_unidad \n " +
+        "INNER JOIN tipo_unidad ON unidad.fk_tipo_unidad = tipo_unidad.id_tipo_unidad \n " +
+        "GROUP BY id_patrullaje, patrullaje.descripcion, turno.turno, unidad.placa, tipo_unidad.tipo_unidad, estado \n " +
+        "ORDER BY num_sere ASC;"
     );
 
     res.send(result);

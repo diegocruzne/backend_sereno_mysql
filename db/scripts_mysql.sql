@@ -28,18 +28,17 @@ create table usuario(
 );
 
 select * from usuario;
+SELECT id_usuario FROM usuario WHERE dni = '' OR correo = '' OR telefono = '9876543211';
 alter table usuario alter column foto set default 'D:\Proyectos\front_sereno\src\assets\users';
-
 -- Insertar datos en la tabla usuario
 INSERT INTO usuario (dni, nombre, apellido, nacimiento, contrasena, correo, direccion, telefono, sexo, adicional, foto, fk_tipo_us)
-VALUES 
-('12345678', 'Juan', 'Pérez', '1990-05-15', 'clave123', 'juan@example.com', 'Calle Principal 123', '555-5555', 'Masculino', 'Información adicional', 'foto1.jpg', 1),
-('87654321', 'María', 'Gómez', '1988-10-20', 'clave456', 'maria@example.com', 'Avenida Secundaria 456', '555-6666', 'Femenino', 'Otra información', 'foto2.jpg', 2),
-('23456789', 'Pedro', 'López', '1995-03-25', 'clave789', 'pedro@example.com', 'Plaza Central 789', '555-7777', 'Masculino', 'Más información', 'foto3.jpg', 1);
+VALUES
+('87654321', 'Karla', 'Nuñez', '1995-03-25', '$10$o/GHMkLW5SaCNBUt.PsHAehniih57XI97uWqWJvs.hIVPy1E6Ehlu', 
+'karla@example.com', 'Plaza Central 789', '555-7777', 'femenino', 'Más información', 'foto3.jpg', 3);
 
 UPDATE usuario
-SET contrasena = '$2a$10$CBLcLL45QK16hf1tuh4W5uoIHMQXuhmtT7lqFtW0smFtvhFu8EmhK'
-where id_usuario = 1;
+SET sexo = 'masculino'
+where id_usuario = 3;
 
 -------------------------- Turno --------------------------
 CREATE TABLE turno (
@@ -103,6 +102,20 @@ select * from turno;
 
 INSERT INTO patrullaje (descripcion, fk_turno, fk_unidad) VALUES ('grupo', 1, 1);
 
+SELECT id_patrullaje, patrullaje.descripcion, turno.turno, unidad.placa, tipo_unidad.tipo_unidad,
+CASE
+	WHEN patrullaje.estado = 1 THEN 'Activo'
+	WHEN patrullaje.estado = 0 THEN 'Inactivo'
+END AS estado, COUNT(sereno.id_sereno) AS num_sere
+FROM patrullaje LEFT JOIN sereno ON patrullaje.id_patrullaje = sereno.fk_patrullaje
+INNER JOIN turno ON patrullaje.fk_turno = turno.id_turno
+INNER JOIN unidad ON patrullaje.fk_unidad = unidad.id_unidad
+INNER JOIN tipo_unidad ON unidad.fk_tipo_unidad = tipo_unidad.id_tipo_unidad
+GROUP BY id_patrullaje, patrullaje.descripcion, turno.turno, unidad.placa, tipo_unidad.tipo_unidad, estado
+ORDER BY num_sere ASC;
+
+SELECT * FROM patrullaje;
+
 -------------------------- Sereno --------------------------
 CREATE TABLE sereno (
     id_sereno INT AUTO_INCREMENT PRIMARY KEY,
@@ -127,3 +140,5 @@ fk_patrullaje from sereno;
 
 INSERT INTO sereno (dni, nombre, apellidos, genero, celular, correo, direccion, nacimiento)
 VALUES ('75115452', 'diego', 'cruz', 1, '945098055', 'diego@gmail.com', 'calle 123', '1996-12-30');
+
+UPDATE sereno SET imagen = 'user.png' WHERE id_sereno = 5;

@@ -100,3 +100,44 @@ export const changeMyPassword = async (req, res = response) => {
     });
   }
 };
+
+export const createUser = async (req, res = response) => {
+  const { dni, nombre, apellido, nacimiento, contrasena, correo, direccion, telefono, sexo, adicional } = req.body;  
+
+  try {
+    // Evaluar si existe dni, correo y telefono
+    const [result] = await pool.query(
+      "SELECT id_usuario FROM usuario WHERE dni = ? OR correo = ? OR telefono = ?",
+      [dni, correo, telefono]
+    );
+
+    if (result.length > 0) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Dni, correo o celular ya existen",
+      });
+    }
+
+    // Encriptar contrasena
+    const salt = await bcrypt.genSalt();
+    const passEncr = bcrypt.hashSync(contrasena, salt);
+
+    await pool.query(
+      "INSERT INTO usuario (dni, nombre, apellido, nacimiento, contrasena, correo, direccion, telefono, sexo, adicional, foto, fk_tipo_us) \n " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user.png', 3)",
+      [ dni, nombre, apellido, nacimiento, passEncr, correo, direccion, telefono, sexo, adicional ]
+    );
+
+    return res.json({
+      ok: true,
+      msg: "Usuario añadido correctamente",
+    });
+  } catch (error) {
+    console.log(err);
+    res.status(500).json({
+      ok: false,
+      msg: "Error inesperado",
+    });
+  }
+
+};
