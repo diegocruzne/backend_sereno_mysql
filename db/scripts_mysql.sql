@@ -27,7 +27,6 @@ create table usuario(
     FOREIGN KEY (fk_tipo_us) REFERENCES tipo_usu(id_tipo_us)
 );
 
-select * from usuario;
 SELECT id_usuario FROM usuario WHERE dni = '' OR correo = '' OR telefono = '9876543211';
 alter table usuario alter column foto set default 'D:\Proyectos\front_sereno\src\assets\users';
 -- Insertar datos en la tabla usuario
@@ -36,9 +35,10 @@ VALUES
 ('87654321', 'Karla', 'Nuñez', '1995-03-25', '$10$o/GHMkLW5SaCNBUt.PsHAehniih57XI97uWqWJvs.hIVPy1E6Ehlu', 
 'karla@example.com', 'Plaza Central 789', '555-7777', 'femenino', 'Más información', 'foto3.jpg', 3);
 
-UPDATE usuario
-SET sexo = 'masculino'
-where id_usuario = 3;
+DELETE FROM usuario WHERE id_usuario >= 5 AND id_usuario <= 100;
+
+UPDATE usuario SET fk_tipo_us = 2 WHERE id_usuario = 3;
+select * from usuario;
 
 -------------------------- Turno --------------------------
 CREATE TABLE turno (

@@ -141,3 +141,18 @@ export const createUser = async (req, res = response) => {
   }
 
 };
+
+export const getAllUsers = async (req, res = response) => {
+  try {
+    const [result] = await pool.query(
+      "SELECT id_usuario, dni, nombre, apellido, nacimiento, contrasena, correo, direccion, telefono, sexo, adicional, foto, fk_tipo_us FROM usuario;"
+    );
+    return res.json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error inesperado",
+    });
+  }
+}; 
