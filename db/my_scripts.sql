@@ -1,5 +1,7 @@
 create database serenazgo;
 use serenazgo;
+
+SHOW VARIABLES LIKE 'version%';
 -------------------------- Tipo de usuario --------------------------
 create table tipo_usu(
 	id_tipo_us int auto_increment primary key,

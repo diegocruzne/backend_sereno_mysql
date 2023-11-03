@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `serenazgo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `serenazgo`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: serenazgo
@@ -69,7 +71,7 @@ CREATE TABLE `sereno` (
   PRIMARY KEY (`id_sereno`),
   KEY `FK_Sereno_Patrullaje` (`fk_patrullaje`),
   CONSTRAINT `FK_Sereno_Patrullaje` FOREIGN KEY (`fk_patrullaje`) REFERENCES `patrullaje` (`id_patrullaje`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +80,7 @@ CREATE TABLE `sereno` (
 
 LOCK TABLES `sereno` WRITE;
 /*!40000 ALTER TABLE `sereno` DISABLE KEYS */;
-INSERT INTO `sereno` VALUES (2,'75115452','postman1','postman',1,'94509800','postmail@gmail.com','calle postman 123','1996-12-30',NULL,NULL),(3,'75115452','postman2','postman2',1,'94509800','postmail@gmail.com','calle postman 123','1996-12-30',NULL,NULL),(4,'75115452','test_nombre','test_apellidos',0,'123','test@gmail.com','calle 123','2002-12-31',NULL,NULL),(5,'75115456','test2','test2',1,'','','','2000-12-31',NULL,NULL);
+INSERT INTO `sereno` VALUES (2,'75115452','postman1','postman',1,'94509800','postmail@gmail.com','calle postman 123','1996-12-30','female1.jpg',6),(3,'75115452','postman2','postman2',1,'94509800','postmail@gmail.com','calle postman 123','1996-12-30','male1.jpg',NULL),(4,'75115452','test_nombre','test_apellidos',1,'123','test@gmail.com','calle 123','2002-12-31','male2.jpg',NULL),(5,'75115456','test2','test2',1,'','','','2000-12-31','user.png',8),(6,'75115456','Diego','Cruz Neciosup',1,'945098054','diego@gmail.com','Calle San José 804','1996-03-14',NULL,3);
 /*!40000 ALTER TABLE `sereno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +183,7 @@ CREATE TABLE `unidad` (
 
 LOCK TABLES `unidad` WRITE;
 /*!40000 ALTER TABLE `unidad` DISABLE KEYS */;
-INSERT INTO `unidad` VALUES (1,'abc123','carro 2',1,2,'C:UsersUSERDesktopangularserenosrcassetspolice_car.jpg'),(2,'xyz123','sin descripcióne',0,1,'unidad.jpg'),(3,'abc101','prueba 2',0,1,'unidad.jpg'),(4,'abc102','prueba 2',1,1,'unidad.jpg'),(5,'abc103','prueba 2',1,1,'unidad.jpg'),(6,'xwe123','',0,3,'unidad.jpg'),(7,'rbv123','',0,2,'unidad.jpg');
+INSERT INTO `unidad` VALUES (1,'abc123','carro 2',1,2,'C:UsersUSERDesktopangularserenosrcassetspolice_car.jpg'),(2,'xyz123','sin descripcióne',1,1,'unidad.jpg'),(3,'abc101','prueba 2',1,1,'unidad.jpg'),(4,'abc102','prueba 2',1,1,'unidad.jpg'),(5,'abc103','prueba 2',1,1,'unidad.jpg'),(6,'xwe123','',0,3,'unidad.jpg'),(7,'rbv123','',0,2,'unidad.jpg');
 /*!40000 ALTER TABLE `unidad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +211,7 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id_usuario`),
   KEY `fk_tipo_us` (`fk_tipo_us`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`fk_tipo_us`) REFERENCES `tipo_usu` (`id_tipo_us`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +220,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'12345678','Juan1','Pérez1','1996-12-13','$2a$10$o/GHMkLW5SaCNBUt.PsHAehniih57XI97uWqWJvs.hIVPy1E6Ehlu','juan@example1.com','Calle Principal 1231','9876543211','masculino','Información adicional','male2.jpg',1),(2,'87654321','María','Gómez','2023-10-17','$2a$10$s97Km.1rmDmNsJQ2MduSOuhIoSNxmRIz.u9pKG0kGreXorqTQItLK','marias@example.com','Avenida Secundaria 123','94509878563','femenino','Otra información','female1.jpg',2),(3,'23456789','Pedro','López','1995-03-25','$2a$10$EU0G2yYMiEX.I28.41.yQ.c0TNzVV7GuRJztSZGkoIPzylJu5hJBe','pedro@example.com','Plaza Central 789','555-7777','Masculino','Más información','male2.jpg',1);
+INSERT INTO `usuario` VALUES (1,'12345678','Juan1','Pérez1','1996-10-27','$2a$10$KZbuZ/STZL9PqaUSoVRuu.2RV0D/hFkTMOtqKqiZSYIWXyoetOkzO','juan@example1.com','Calle Principal 1231','9876543211','masculino','Información adicional','male2.jpg',1),(2,'87654321','María','Gómez','2023-10-17','$2a$10$jXhhVvuk8vEfHrE.O8Og5.rObKw6aEWbEC5ssTEj.1MRj5elBynX2','marias@example.com','Avenida Secundaria 122','94509878563','femenino','Otra información','female1.jpg',2),(3,'23456789','Pedro','López','1995-03-25','$2a$10$KZbuZ/STZL9PqaUSoVRuu.2RV0D/hFkTMOtqKqiZSYIWXyoetOkzO','pedro@example.com','Plaza Central 789','555-7777','masculino','Más información','male2.jpg',2),(4,'19191919','Karla','Nuñez','1995-03-25','$2a$10$IGjdFJ7hqCqrOT8f7YOErurXd46fj/E0QS15Ef7JZbx7cAeoOEwgG','karla@example.com','Plaza Central 789','555-7777','femenino','Más información','male1.jpg',3),(11,'00000007','create 1','create 1','1996-12-30','$2a$10$WoB5bjWsG2oF113ITAf6l.Z/t067UZCtOygdLEP4PT2ZoO5l96wTS','00000007@gmail.com','Calle 111','00000007','femenino','Información','user.png',3);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-18 12:21:28
+-- Dump completed on 2023-11-03 12:27:19
