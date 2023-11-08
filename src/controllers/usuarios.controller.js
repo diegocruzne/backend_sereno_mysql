@@ -5,16 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 export const updateMyUser = async (req, res = response) => {
-  const {
-    nombre,
-    apellidos,
-    nacimiento,
-    correo,
-    direccion,
-    telefono,
-    sexo,
-    dni,
-  } = req.body;
+  const { nombre, apellidos, nacimiento, correo, direccion, telefono, sexo, dni } = req.body;
   const { id } = req.params;
 
   try {
@@ -150,6 +141,40 @@ export const getAllUsers = async (req, res = response) => {
     return res.json(result);
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error inesperado",
+    });
+  }
+}; 
+
+export const updateUserFromRoot = async (req, res = response) => {
+  const { dni, nombre, apellidos, correo, nacimiento, direccion, telefono, sexo, contrasena, fk_tipo_us } = req.body;
+  const { id } = req.params;
+  const passEncri = contrasena
+    ? bcrypt.hashSync(contrasena, bcrypt.genSaltSync())
+    : null;
+
+  try {
+
+    const [result] = await pool.query(
+      `UPDATE usuario SET dni = IFNULL(?, dni), nombre = IFNULL(?, nombre), apellido = IFNULL(?, apellido), nacimiento = IFNULL(?, nacimiento), 
+        correo = IFNULL(?, correo), direccion = IFNULL(?, direccion), 
+        telefono = IFNULL(?, telefono), sexo = IFNULL(?, sexo), contrasena = IFNULL(?, contrasena), fk_tipo_us = IFNULL(?, fk_tipo_us) 
+        WHERE id_usuario = ?;`,
+      [ dni, nombre, apellidos, nacimiento, correo, direccion, telefono, sexo, passEncri, fk_tipo_us, id ]
+    );
+
+    if (result.affectedRows === 1) {
+      return res.json({
+        ok: true,
+        msg: "Usuario actualizado!",
+      });
+    } else {
+      throw new Error("Error en la actualización de ususario(s)");
+    } 
+  } catch (err) {
+    console.log(err);
     res.status(500).json({
       ok: false,
       msg: "Error inesperado",

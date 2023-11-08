@@ -41,7 +41,10 @@ DELETE FROM usuario WHERE id_usuario >= 5 AND id_usuario <= 100;
 
 UPDATE usuario SET fk_tipo_us = 2 WHERE id_usuario = 3;
 select * from usuario;
+select * from tipo_usu;
 
+UPDATE usuario SET dni = ?, nombre = ?, apellido = ?, nacimiento = ?, correo = ?, direccion = ?, telefono = ?, sexo = ?, contrasena = ?, fk_tipo_us = ?
+WHERE id_usuario = ?;
 -------------------------- Turno --------------------------
 CREATE TABLE turno (
     id_turno INT NOT NULL,
