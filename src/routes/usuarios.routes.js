@@ -3,6 +3,7 @@ import {
   changeMyPassword,
   createUser,
   getAllUsers,
+  getUserById,
   updateMyUser,
   updateUserFromRoot,
 } from "../controllers/usuarios.controller.js";
@@ -15,6 +16,7 @@ router.put("/usuarios/:id", validarJwt, updateMyUser);
 router.post("/usuarios_changemypassword", validatePasswords, validarJwt, changeMyPassword);
 router.post("/usuarios", validarJwt, createUser);
 router.get("/usuarios", validarJwt, getAllUsers);
+router.get("/usuarios/:id", validarJwt, getUserById);
 router.patch("/usuarios/:id", validarJwt, updateUserFromRoot)
 
 export default router;

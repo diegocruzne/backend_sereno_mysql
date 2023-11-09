@@ -181,3 +181,17 @@ export const updateUserFromRoot = async (req, res = response) => {
     });
   }
 }; 
+
+export const getUserById = async (req, res = response) => {
+  const { id } = req.params;
+
+  const [result] = await pool.query(
+    `SELECT id_usuario, dni, nombre, apellido, nacimiento, contrasena, 
+      correo, direccion, telefono, sexo, adicional, foto, fk_tipo_us
+      FROM usuario
+      WHERE id_usuario = ?;`,
+    [id]
+  );
+
+  res.json(result[0]);
+}

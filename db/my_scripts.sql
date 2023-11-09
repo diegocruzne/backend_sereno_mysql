@@ -39,9 +39,10 @@ VALUES
 
 DELETE FROM usuario WHERE id_usuario >= 5 AND id_usuario <= 100;
 
-UPDATE usuario SET fk_tipo_us = 2 WHERE id_usuario = 3;
-select * from usuario;
+UPDATE usuario SET sexo = 'masculino' WHERE id_usuario = 11;
+select * from usuario where id_usuario = 4;
 select * from tipo_usu;
+DESCRIBE usuario;
 
 UPDATE usuario SET dni = ?, nombre = ?, apellido = ?, nacimiento = ?, correo = ?, direccion = ?, telefono = ?, sexo = ?, contrasena = ?, fk_tipo_us = ?
 WHERE id_usuario = ?;
