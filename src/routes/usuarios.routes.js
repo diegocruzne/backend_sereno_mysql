@@ -3,6 +3,7 @@ import {
   changeMyPassword,
   createUser,
   getAllUsers,
+  getUserByDni,
   getUserById,
   updateMyUser,
   updateUserFromRoot,
@@ -17,6 +18,7 @@ router.post("/usuarios_changemypassword", validatePasswords, validarJwt, changeM
 router.post("/usuarios", validarJwt, createUser);
 router.get("/usuarios", validarJwt, getAllUsers);
 router.get("/usuarios/:id", validarJwt, getUserById);
-router.patch("/usuarios/:id", validarJwt, updateUserFromRoot)
+router.patch("/usuarios/:id", validarJwt, updateUserFromRoot);
+router.get('/usuarios_dni/:dni', validarJwt, getUserByDni)
 
 export default router;

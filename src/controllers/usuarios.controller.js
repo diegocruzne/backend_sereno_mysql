@@ -5,7 +5,16 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 export const updateMyUser = async (req, res = response) => {
-  const { nombre, apellidos, nacimiento, correo, direccion, telefono, sexo, dni } = req.body;
+  const {
+    nombre,
+    apellidos,
+    nacimiento,
+    correo,
+    direccion,
+    telefono,
+    sexo,
+    dni,
+  } = req.body;
   const { id } = req.params;
 
   try {
@@ -93,7 +102,18 @@ export const changeMyPassword = async (req, res = response) => {
 };
 
 export const createUser = async (req, res = response) => {
-  const { dni, nombre, apellido, nacimiento, contrasena, correo, direccion, telefono, sexo, adicional } = req.body;  
+  const {
+    dni,
+    nombre,
+    apellido,
+    nacimiento,
+    contrasena,
+    correo,
+    direccion,
+    telefono,
+    sexo,
+    adicional,
+  } = req.body;
 
   try {
     // Evaluar si existe dni, correo y telefono
@@ -116,7 +136,18 @@ export const createUser = async (req, res = response) => {
     await pool.query(
       "INSERT INTO usuario (dni, nombre, apellido, nacimiento, contrasena, correo, direccion, telefono, sexo, adicional, foto, fk_tipo_us) \n " +
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'user.png', 3)",
-      [ dni, nombre, apellido, nacimiento, passEncr, correo, direccion, telefono, sexo, adicional ]
+      [
+        dni,
+        nombre,
+        apellido,
+        nacimiento,
+        passEncr,
+        correo,
+        direccion,
+        telefono,
+        sexo,
+        adicional,
+      ]
     );
 
     return res.json({
@@ -130,7 +161,6 @@ export const createUser = async (req, res = response) => {
       msg: "Error inesperado",
     });
   }
-
 };
 
 export const getAllUsers = async (req, res = response) => {
@@ -146,23 +176,45 @@ export const getAllUsers = async (req, res = response) => {
       msg: "Error inesperado",
     });
   }
-}; 
+};
 
 export const updateUserFromRoot = async (req, res = response) => {
-  const { dni, nombre, apellidos, correo, nacimiento, direccion, telefono, sexo, contrasena, fk_tipo_us } = req.body;
+  const {
+    dni,
+    nombre,
+    apellidos,
+    correo,
+    nacimiento,
+    direccion,
+    telefono,
+    sexo,
+    contrasena,
+    fk_tipo_us,
+  } = req.body;
   const { id } = req.params;
   const passEncri = contrasena
     ? bcrypt.hashSync(contrasena, bcrypt.genSaltSync())
     : null;
 
   try {
-
     const [result] = await pool.query(
       `UPDATE usuario SET dni = IFNULL(?, dni), nombre = IFNULL(?, nombre), apellido = IFNULL(?, apellido), nacimiento = IFNULL(?, nacimiento), 
         correo = IFNULL(?, correo), direccion = IFNULL(?, direccion), 
         telefono = IFNULL(?, telefono), sexo = IFNULL(?, sexo), contrasena = IFNULL(?, contrasena), fk_tipo_us = IFNULL(?, fk_tipo_us) 
         WHERE id_usuario = ?;`,
-      [ dni, nombre, apellidos, nacimiento, correo, direccion, telefono, sexo, passEncri, fk_tipo_us, id ]
+      [
+        dni,
+        nombre,
+        apellidos,
+        nacimiento,
+        correo,
+        direccion,
+        telefono,
+        sexo,
+        passEncri,
+        fk_tipo_us,
+        id,
+      ]
     );
 
     if (result.affectedRows === 1) {
@@ -172,7 +224,7 @@ export const updateUserFromRoot = async (req, res = response) => {
       });
     } else {
       throw new Error("Error en la actualización de ususario(s)");
-    } 
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -180,7 +232,7 @@ export const updateUserFromRoot = async (req, res = response) => {
       msg: "Error inesperado",
     });
   }
-}; 
+};
 
 export const getUserById = async (req, res = response) => {
   const { id } = req.params;
@@ -194,4 +246,37 @@ export const getUserById = async (req, res = response) => {
   );
 
   res.json(result[0]);
-}
+};
+
+export const getUserByDni = async (req, res = response) => {
+  const { dni } = req.params;
+
+  try {
+    const [result] = await pool.query(
+      `SELECT id_usuario, dni, nombre, apellido, nacimiento, contrasena, 
+      correo, direccion, telefono, sexo, adicional, foto, fk_tipo_us
+      FROM usuario
+      WHERE dni = ?`,
+      [dni]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Usuario no encontrado",
+      });
+    }
+
+    res.json({
+      ok: true,
+      msg: "Usuario encontrado",
+      usuario: result[0],
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      ok: false,
+      msg: "Ocurrió un error",
+    });
+  }
+};
