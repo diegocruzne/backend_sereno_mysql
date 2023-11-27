@@ -37,11 +37,11 @@ VALUES
 ('87654321', 'Karla', 'Nuñez', '1995-03-25', '$10$o/GHMkLW5SaCNBUt.PsHAehniih57XI97uWqWJvs.hIVPy1E6Ehlu', 
 'karla@example.com', 'Plaza Central 789', '555-7777', 'femenino', 'Más información', 'foto3.jpg', 3);
 
-DELETE FROM usuario WHERE id_usuario >= 5 AND id_usuario <= 100;
+DELETE FROM usuario WHERE id_usuario >= 15 AND id_usuario <= 100;
 
 UPDATE usuario SET sexo = 'masculino' WHERE id_usuario = 11;
 select * from usuario where id_usuario = 4;
-select * from tipo_usu;
+select * from usuario;
 DESCRIBE usuario;
 
 UPDATE usuario SET dni = ?, nombre = ?, apellido = ?, nacimiento = ?, correo = ?, direccion = ?, telefono = ?, sexo = ?, contrasena = ?, fk_tipo_us = ?
@@ -148,3 +148,63 @@ INSERT INTO sereno (dni, nombre, apellidos, genero, celular, correo, direccion, 
 VALUES ('75115452', 'diego', 'cruz', 1, '945098055', 'diego@gmail.com', 'calle 123', '1996-12-30');
 
 UPDATE sereno SET imagen = 'user.png' WHERE id_sereno = 5;
+
+-------------- Tipo de delitos ----------
+CREATE TABLE tipo_delito(
+	id_tipo_delito INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_delito VARCHAR(50)
+);
+
+SELECT * FROM tipo_delito;
+
+----------------- Delito -------------------
+CREATE TABLE delito(
+	id_delito INT AUTO_INCREMENT PRIMARY KEY,
+    delito VARCHAR(60),
+    tipo_delito_fk INT NOT NULL,
+    CONSTRAINT FK_TIPO_DELITO FOREIGN KEY(tipo_delito_fk) REFERENCES tipo_delito(id_tipo_delito)
+);
+
+SELECT * FROM tipo_delito;
+SELECT * FROM delito;
+
+-------------------------- Persona ------------------------
+CREATE TABLE persona(
+	id_persona INT AUTO_INCREMENT PRIMARY KEY,
+    dni CHAR(8) UNIQUE NOT NULL,
+    nombres VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    fecha_naci DATE NOT NULL,
+    sexo VARCHAR(20) NOT NULL,
+    direccion VARCHAR(30) NULL,
+    telefono VARCHAR(30) NULL,
+    correo VARCHAR(30) NULL
+);
+
+SELECT * FROM persona;
+
+-------------------- Denuncia -------------------------
+CREATE TABLE denuncia(
+	id_denuncia INT AUTO_INCREMENT PRIMARY KEY,
+    detalles VARCHAR(500) NULL,
+    direccion VARCHAR(150) NOT NULL,
+    coordenadas POINT NOT NULL,
+    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    delito_fk INT NOT NULL REFERENCES delito(id_delito),
+    denunciante_fk INT NULL REFERENCES persona(id_persona),
+    usuario_fk INT NOT NULL REFERENCES usuario(id_usuario),
+    patrullaje_fk INT NULL REFERENCES patrullaje(id_patrullaje)
+);
+
+SELECT * FROM denuncia;
+
+INSERT INTO denuncia (detalles, direccion, coordenadas, fecha, delito_fk, denunciante_fk, usuario_fk, patrullaje_fk)
+VALUES
+('Denuncia de robo a tienda', 'Calle 10 # 20-30', POINT(9.5, -74.1), '2023-11-27 18:00:00', 1, 1, 1, 4),
+('Denuncia de accidente de tránsito', 'Avenida 15 # 25-40', POINT(12.3, -73.8), '2023-11-27 17:00:00', 2, 1, 2, 4),
+('Denuncia de violencia doméstica', 'Ruta 20 # 30-50', POINT(15.7, -72.4), '2023-11-27 14:00:00', 3, 20, 2, 4),
+('Denuncia de hurto a domicilio', 'Calle 25 # 35-60', POINT(18.2,-71.9), '2023-11-27 18:00:00', 4,15,4,4),
+('Denuncia de incendio forestal','Avenida 30 #40-70', POINT(21.5,-70.8),'2023-11-27 14:00:00','1',1, 4,4),
+('Denuncia de contaminación ambiental','Ruta35 #45-80', POINT(24.8,-69.7),'2023-11-27 15:00:00', 1, 8, 18, 4)
+
+

@@ -18,6 +18,64 @@ USE `serenazgo`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `delito`
+--
+
+DROP TABLE IF EXISTS `delito`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `delito` (
+  `id_delito` int NOT NULL AUTO_INCREMENT,
+  `delito` varchar(60) DEFAULT NULL,
+  `tipo_delito_fk` int NOT NULL,
+  PRIMARY KEY (`id_delito`),
+  KEY `FK_TIPO_DELITO` (`tipo_delito_fk`),
+  CONSTRAINT `FK_TIPO_DELITO` FOREIGN KEY (`tipo_delito_fk`) REFERENCES `tipo_delito` (`id_tipo_delito`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delito`
+--
+
+LOCK TABLES `delito` WRITE;
+/*!40000 ALTER TABLE `delito` DISABLE KEYS */;
+INSERT INTO `delito` VALUES (1,'Homicidio',1),(2,'Lesiones',1),(3,'Feminicidio',1),(4,'Robo',2),(5,'Hurto',2),(6,'Extorsi√≥n',2),(7,'Estafa',2),(8,'Apropiaci√≥n il√≠cita',2),(9,'Secuestro',3),(10,'Amenazas',3),(11,'Coacci√≥n',3),(12,'Tr√°fico il√≠cito de personas',3),(13,'Violaci√≥n',4),(14,'Actos contra el pudor',4),(15,'Prostituci√≥n forzada',4),(16,'Trata de personas con fines de explotaci√≥n sexual',4),(17,'Perturbaci√≥n de la paz',5),(18,'Resistencia a la autoridad',5),(19,'Desobediencia y resistencia a la autoridad',5),(20,'Corrupci√≥n',6),(21,'Cohecho',6),(22,'Peculado',6),(23,'Enriquecimiento il√≠cito',6),(24,'Tr√°fico il√≠cito de drogas',7),(25,'Tenencia y posesi√≥n ilegal de drogas',7),(26,'Violencia familiar',8),(27,'Abandono de familia',8);
+/*!40000 ALTER TABLE `delito` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `denuncia`
+--
+
+DROP TABLE IF EXISTS `denuncia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `denuncia` (
+  `id_denuncia` int NOT NULL AUTO_INCREMENT,
+  `detalles` varchar(500) DEFAULT NULL,
+  `direccion` varchar(150) NOT NULL,
+  `coordenadas` point NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `delito_fk` int NOT NULL,
+  `denunciante_fk` int DEFAULT NULL,
+  `usuario_fk` int NOT NULL,
+  `patrullaje_fk` int DEFAULT NULL,
+  PRIMARY KEY (`id_denuncia`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `denuncia`
+--
+
+LOCK TABLES `denuncia` WRITE;
+/*!40000 ALTER TABLE `denuncia` DISABLE KEYS */;
+INSERT INTO `denuncia` VALUES (1,'Denuncia de robo a tienda','Calle 10 # 20-30',_binary '\0\0\0\0\0\0\0\0\0\0\0\0\0#@fffffÜR¿','2023-11-27 18:00:00',1,1,1,4),(2,'Denuncia de accidente de tr√°nsito','Avenida 15 # 25-40',_binary '\0\0\0\0\0\0\0öôôôôô(@33333sR¿','2023-11-27 17:00:00',2,1,2,4),(3,'Denuncia de violencia dom√©stica','Ruta 20 # 30-50',_binary '\0\0\0\0\0\0\0ffffff/@öôôôôR¿','2023-11-27 14:00:00',3,20,2,4),(4,'Denuncia de hurto a domicilio','Calle 25 # 35-60',_binary '\0\0\0\0\0\0\03333332@öôôôô˘Q¿','2023-11-27 18:00:00',4,15,4,4),(5,'Denuncia de incendio forestal','Avenida 30 #40-70',_binary '\0\0\0\0\0\0\0\0\0\0\0\0Ä5@33333≥Q¿','2023-11-27 14:00:00',1,1,4,4),(6,'Denuncia de contaminaci√≥n ambiental','Ruta35 #45-80',_binary '\0\0\0\0\0\0\0\Õ\Ã\Ã\Ã\Ã\Ã8@\Õ\Ã\Ã\Ã\ÃlQ¿','2023-11-27 15:00:00',1,8,18,4);
+/*!40000 ALTER TABLE `denuncia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `patrullaje`
 --
 
@@ -50,6 +108,38 @@ INSERT INTO `patrullaje` VALUES (3,'grupo',1,1,'2023-10-17 12:02:40',1),(4,'grup
 UNLOCK TABLES;
 
 --
+-- Table structure for table `persona`
+--
+
+DROP TABLE IF EXISTS `persona`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `persona` (
+  `id_persona` int NOT NULL AUTO_INCREMENT,
+  `dni` char(8) NOT NULL,
+  `nombres` varchar(50) NOT NULL,
+  `apellidos` varchar(50) NOT NULL,
+  `fecha_naci` date NOT NULL,
+  `sexo` varchar(20) NOT NULL,
+  `direccion` varchar(30) DEFAULT NULL,
+  `telefono` varchar(30) DEFAULT NULL,
+  `correo` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id_persona`),
+  UNIQUE KEY `dni` (`dni`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `persona`
+--
+
+LOCK TABLES `persona` WRITE;
+/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
+INSERT INTO `persona` VALUES (1,'12345678','Juan','Perez','1990-05-15','Masculino','Calle 123','123456789','juan.perez@email.com'),(2,'87654321','Maria','Gomez','1985-08-22','Femenino','Avenida 456','987654321','maria.gomez@email.com'),(3,'23456789','Carlos','Rodriguez','1995-02-10','Masculino','Carrera 789','456789012','carlos.rodriguez@email.com'),(4,'34567890','Laura','Lopez','1980-11-30','Femenino','Calle 567','789012345','laura.lopez@email.com'),(5,'45678901','Pedro','Garcia','1988-07-05','Masculino','Avenida 890','012345678','pedro.garcia@email.com'),(6,'56789012','Ana','Martinez','1992-09-18','Femenino','Calle 678','234567890','ana.martinez@email.com'),(7,'67890123','Javier','Sanchez','1983-04-03','Masculino','Avenida 901','345678901','javier.sanchez@email.com'),(8,'78901234','Sofia','Fernandez','1998-12-25','Femenino','Calle 789','456789012','sofia.fernandez@email.com'),(9,'89012345','Diego','Luna','1987-06-08','Masculino','Carrera 012','567890123','diego.luna@email.com'),(10,'90123456','Elena','Hernandez','1993-03-12','Femenino','Avenida 123','678901234','elena.hernandez@email.com'),(11,'11223344','Raul','Diaz','1982-01-20','Masculino','Calle 456','789012345','raul.diaz@email.com'),(12,'22334455','Clara','Ruiz','1997-07-14','Femenino','Carrera 789','890123456','clara.ruiz@email.com'),(13,'33445566','Mario','Iglesias','1986-10-05','Masculino','Avenida 234','901234567','mario.iglesias@email.com'),(14,'44556677','Isabel','Lopez','1996-04-28','Femenino','Calle 567','012345678','isabel.lopez@email.com'),(15,'55667788','Alberto','Ortega','1984-08-17','Masculino','Carrera 890','123456789','alberto.ortega@email.com'),(16,'66778899','Lucia','Santos','1994-11-09','Femenino','Avenida 567','234567890','lucia.santos@email.com'),(17,'77889900','Hugo','Castro','1989-02-28','Masculino','Calle 678','345678901','hugo.castro@email.com'),(18,'88990011','Marta','Gutierrez','1990-06-15','Femenino','Carrera 901','456789012','marta.gutierrez@email.com'),(19,'99001122','Juan','Molina','1981-03-30','Masculino','Avenida 123','567890123','juan.molina@email.com'),(20,'00112233','Luisa','Perez','1999-09-22','Femenino','Calle 456','678901234','luisa.perez@email.com');
+/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sereno`
 --
 
@@ -71,7 +161,7 @@ CREATE TABLE `sereno` (
   PRIMARY KEY (`id_sereno`),
   KEY `FK_Sereno_Patrullaje` (`fk_patrullaje`),
   CONSTRAINT `FK_Sereno_Patrullaje` FOREIGN KEY (`fk_patrullaje`) REFERENCES `patrullaje` (`id_patrullaje`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,8 +170,32 @@ CREATE TABLE `sereno` (
 
 LOCK TABLES `sereno` WRITE;
 /*!40000 ALTER TABLE `sereno` DISABLE KEYS */;
-INSERT INTO `sereno` VALUES (2,'75115452','postman1','postman',1,'94509800','postmail@gmail.com','calle postman 123','1996-12-30','female1.jpg',6),(3,'75115452','postman2','postman2',1,'94509800','postmail@gmail.com','calle postman 123','1996-12-30','male1.jpg',NULL),(4,'75115452','test_nombre','test_apellidos',1,'123','test@gmail.com','calle 123','2002-12-31','male2.jpg',NULL),(5,'75115456','test2','test2',1,'','','','2000-12-31','user.png',8),(6,'75115456','Diego','Cruz Neciosup',1,'945098054','diego@gmail.com','Calle San Jos√© 804','1996-03-14',NULL,3);
+INSERT INTO `sereno` VALUES (2,'75115452','postman11','postman',1,'94509800','postmail@gmail.com','calle postman 123','1996-12-30','female1.jpg',6),(5,'75115456','test2','test2',1,'','','','2000-12-31','user.png',8),(6,'75115456','Diego','Cruz Neciosup',1,'945098054','diego@gmail.com','Calle San Jos√© 804','1996-03-14',NULL,3),(7,'75115452','dasd','dsadas',1,'','','','2001-02-06',NULL,7),(8,'45697420','dasdas','dasdas',0,'12312312','','','2004-01-04',NULL,NULL);
 /*!40000 ALTER TABLE `sereno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipo_delito`
+--
+
+DROP TABLE IF EXISTS `tipo_delito`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tipo_delito` (
+  `id_tipo_delito` int NOT NULL AUTO_INCREMENT,
+  `tipo_delito` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_tipo_delito`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_delito`
+--
+
+LOCK TABLES `tipo_delito` WRITE;
+/*!40000 ALTER TABLE `tipo_delito` DISABLE KEYS */;
+INSERT INTO `tipo_delito` VALUES (1,'Contra la vida y la integridad personal'),(2,'Contra el patrimonio'),(3,'Contra la libertad y la seguridad'),(4,'Contra la libertad sexual'),(5,'Contra la tranquilidad p√∫blica'),(6,'Contra la administraci√≥n p√∫blica'),(7,'Contra la salud p√∫blica'),(8,'Contra la familia');
+/*!40000 ALTER TABLE `tipo_delito` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -183,7 +297,7 @@ CREATE TABLE `unidad` (
 
 LOCK TABLES `unidad` WRITE;
 /*!40000 ALTER TABLE `unidad` DISABLE KEYS */;
-INSERT INTO `unidad` VALUES (1,'abc123','carro 2',1,2,'C:UsersUSERDesktopangularserenosrcassetspolice_car.jpg'),(2,'xyz123','sin descripci√≥ne',1,1,'unidad.jpg'),(3,'abc101','prueba 2',1,1,'unidad.jpg'),(4,'abc102','prueba 2',1,1,'unidad.jpg'),(5,'abc103','prueba 2',1,1,'unidad.jpg'),(6,'xwe123','',0,3,'unidad.jpg'),(7,'rbv123','',0,2,'unidad.jpg');
+INSERT INTO `unidad` VALUES (1,'abc123','carro 1',1,2,'C:UsersUSERDesktopangularserenosrcassetspolice_car.jpg'),(2,'xyz123','sin descripci√≥ne',0,1,'unidad.jpg'),(3,'abc101','prueba 2',1,1,'unidad.jpg'),(4,'abc102','prueba 2',1,1,'unidad.jpg'),(5,'abc103','prueba 2',1,1,'unidad.jpg'),(6,'xwe123','',0,3,'unidad.jpg'),(7,'rbv123','ds',1,2,'unidad.jpg');
 /*!40000 ALTER TABLE `unidad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +325,7 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id_usuario`),
   KEY `fk_tipo_us` (`fk_tipo_us`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`fk_tipo_us`) REFERENCES `tipo_usu` (`id_tipo_us`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +334,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'12345678','Juan1','P√©rez1','1996-10-27','$2a$10$KZbuZ/STZL9PqaUSoVRuu.2RV0D/hFkTMOtqKqiZSYIWXyoetOkzO','juan@example1.com','Calle Principal 1231','9876543211','masculino','Informaci√≥n adicional','male2.jpg',1),(2,'87654321','Mar√≠a','G√≥mez','2023-10-17','$2a$10$jXhhVvuk8vEfHrE.O8Og5.rObKw6aEWbEC5ssTEj.1MRj5elBynX2','marias@example.com','Avenida Secundaria 122','94509878563','femenino','Otra informaci√≥n','female1.jpg',2),(3,'23456789','Pedro','L√≥pez','1995-03-25','$2a$10$KZbuZ/STZL9PqaUSoVRuu.2RV0D/hFkTMOtqKqiZSYIWXyoetOkzO','pedro@example.com','Plaza Central 789','555-7777','masculino','M√°s informaci√≥n','male2.jpg',2),(4,'19191919','Karla','Nu√±ez','1995-03-25','$2a$10$IGjdFJ7hqCqrOT8f7YOErurXd46fj/E0QS15Ef7JZbx7cAeoOEwgG','karla@example.com','Plaza Central 789','555-7777','femenino','M√°s informaci√≥n','male1.jpg',3),(11,'00000007','create 1','create 1','1996-12-30','$2a$10$WoB5bjWsG2oF113ITAf6l.Z/t067UZCtOygdLEP4PT2ZoO5l96wTS','00000007@gmail.com','Calle 111','00000007','femenino','Informaci√≥n','user.png',3);
+INSERT INTO `usuario` VALUES (1,'12345678','Juan1','P√©rez1','1996-12-13','$2a$10$KZbuZ/STZL9PqaUSoVRuu.2RV0D/hFkTMOtqKqiZSYIWXyoetOkzO','juan@example1.com','Calle Principal 1231','9876543211','masculino','Informaci√≥n adicional','male2.jpg',1),(2,'87654321','Mar√≠a','G√≥mez','2023-10-17','$2a$10$DjDIdN7z5ewWGLE.siI27O0gvzPA91Azmm9MTooBPjXue1ChJozFG','maria@example.com','Avenida Secundaria 122','94509878563','femenino','Otra informaci√≥n','female1.jpg',3),(3,'23456789','Pedro','L√≥pez','1995-03-25','$2a$10$KZbuZ/STZL9PqaUSoVRuu.2RV0D/hFkTMOtqKqiZSYIWXyoetOkzO','pedro@example.com','Plaza Central 789','555-7777','masculino','M√°s informaci√≥n','male2.jpg',2),(4,'19191919','Karla','Nu√±ezs','1995-12-30','$2a$10$WAYJk1aoYlwyEsbUoBY7wuvzH71QjzQOwLfxfJyQwrjK1lPGWTFWy','karlas@example.com','Plazas Central 789','11111','femenino','M√°s informaci√≥n','male1.jpg',2),(18,'12345671','dasda','dsadsa','1996-01-11','$2a$10$YZwA5We80Vttr225oEl5Gu4VIVNhPyuYNVQNyWQL7sbzOx1c8Rwy2','das@gmail.com','31231','31231','masculino',NULL,'user.png',3);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,4 +355,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-03 12:27:19
+-- Dump completed on 2023-11-27 13:45:44

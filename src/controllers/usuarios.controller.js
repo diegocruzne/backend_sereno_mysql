@@ -155,7 +155,7 @@ export const createUser = async (req, res = response) => {
       msg: "Usuario añadido correctamente",
     });
   } catch (error) {
-    console.log(err);
+    console.log(error);
     res.status(500).json({
       ok: false,
       msg: "Error inesperado",
@@ -261,7 +261,7 @@ export const getUserByDni = async (req, res = response) => {
     );
 
     if (result.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         ok: false,
         msg: "Usuario no encontrado",
       });
