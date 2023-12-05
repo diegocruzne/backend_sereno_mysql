@@ -196,15 +196,18 @@ CREATE TABLE denuncia(
     patrullaje_fk INT NULL REFERENCES patrullaje(id_patrullaje)
 );
 
-SELECT * FROM denuncia;
-
 INSERT INTO denuncia (detalles, direccion, coordenadas, fecha, delito_fk, denunciante_fk, usuario_fk, patrullaje_fk)
 VALUES
-('Denuncia de robo a tienda', 'Calle 10 # 20-30', POINT(9.5, -74.1), '2023-11-27 18:00:00', 1, 1, 1, 4),
-('Denuncia de accidente de tránsito', 'Avenida 15 # 25-40', POINT(12.3, -73.8), '2023-11-27 17:00:00', 2, 1, 2, 4),
-('Denuncia de violencia doméstica', 'Ruta 20 # 30-50', POINT(15.7, -72.4), '2023-11-27 14:00:00', 3, 20, 2, 4),
-('Denuncia de hurto a domicilio', 'Calle 25 # 35-60', POINT(18.2,-71.9), '2023-11-27 18:00:00', 4,15,4,4),
-('Denuncia de incendio forestal','Avenida 30 #40-70', POINT(21.5,-70.8),'2023-11-27 14:00:00','1',1, 4,4),
-('Denuncia de contaminación ambiental','Ruta35 #45-80', POINT(24.8,-69.7),'2023-11-27 15:00:00', 1, 8, 18, 4)
+('Robo de celular', 'Calle 10 # 20-30', POINT(9.5, -74.1), '2023-12-01 18:00:00', 1, NULL, 1, NULL);
+
+
+SELECT * FROM denuncia order by id_denuncia desc;
+
+UPDATE denuncia SET  fecha = '2023-11-28 13:59:00' WHERE id_denuncia = 38;
+
+
+
+
+
 
 
