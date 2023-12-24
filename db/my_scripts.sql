@@ -168,6 +168,9 @@ CREATE TABLE delito(
 SELECT * FROM tipo_delito;
 SELECT * FROM delito;
 
+SELECT td.tipo_delito AS tipo_delito, d.id_delito AS id, d.delito AS nombre
+FROM tipo_delito td JOIN delito d ON td.id_tipo_delito = d.tipo_delito_fk;
+
 -------------------------- Persona ------------------------
 CREATE TABLE persona(
 	id_persona INT AUTO_INCREMENT PRIMARY KEY,
@@ -204,6 +207,8 @@ VALUES
 SELECT * FROM denuncia order by id_denuncia desc;
 
 UPDATE denuncia SET  fecha = '2023-11-28 13:59:00' WHERE id_denuncia = 38;
+
+
 
 
 
